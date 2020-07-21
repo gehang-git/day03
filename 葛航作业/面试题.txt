@@ -1,0 +1,62 @@
+9.线程同步,什么是锁?
+实现线程同步有三种方式：
+1)同步代码块：在代码块上加上“synchronized”关键字的话，则此代码块就称为同步代码块。 
+同步代码块格式：
+synchronized(监视对象){
+		需要同步的代码 ;
+	}
+解释：监视对象有三种：对象、String、.class文件（只要是不变的对象都可以做监视对象）
+2)同步方法
+同步方法定义格式：
+synchronized 方法返回值 方法名称(参数列表){}
+
+在方法上加synchronized，是把当前对象做为监视器
+3)同步锁
+Lock lock = new  ReentrantLock();(可以在类中直接new)
+lock.lock();  中间的代码块进行加锁lock.unlock(); 
+
+10.自定义Annotation,自定义注解
+大学里学java初级的时候写过自定的注解,  按照下面代码说一下, 开发以后就没在写过了,都是用的框架给带的注解 spring的那些注解给挨个说一遍
+向Annotation中设置参数内容 
+Annotation定义格式：
+[public] @interface Annotation名称{
+		数据类型 变量名称() ;
+	}
+定义注解：
+public @interface Controller {
+
+}
+使用注解：
+@Controller
+public class UserController {
+
+}
+定义带参数的注解（）
+定义注解：
+public @interface Controller {
+	public String value();		
+}
+使用注解：
+//@Controller(value="userService")
+@Controller("userService")  // 注解的参数名为value时，参数名可以省略
+public class UserController {
+}
+常见java内建注解，override等
+11.什么是反射，反射能干嘛？
+反射： 简单说，反射机制值得是程序在运行时能够获取自身的信息。在java 中，只要给定类的名字，那么就可以通过反射机制来获得类的所有信息。反射的作用其实就是：在运行时能够判断任意一个对象所属的类, 还有就是在运行时构造任意一个类的对象,我们常用的Spring框架也是利用Java反射这一块架构的还有就是 在运行时判断任意一个类所具有的成员变量和方法,还能在在运行时调用任一对象的方法,还有在运行时创建新类对象
+看下面的代码是在于理解什么是反射,不用背出来
+public class Base {
+    static int num = 1;  
+    static {
+        System.out.println("Base " + num);
+    }
+}public class Main {
+    public static void main(String[] args) {
+        Class clazz1 = Base.class;
+        System.out.println("------")
+        Class clazz2 = Class.forName("zzz.Base");
+    }
+}
+12.jdk1.8 和1.7区别
+我了解JDK8的新特性有:就是接口里也可添加普通的方法了,不用非得是抽象方法了,但是必须得用default进行修饰,调用的时候也还是得实现这个接口以后才能调用,还有就是添加了一个Lambda 表达式,让我们遍历集合数据的时候速度更快,我大概就知道这些,我们目前开发也还没用到过这些新特性,对了,还有就是JDK1.8以后的map存储方式是1.7的也有些区别.如果不相等则形成链表结构，jdk1.7后加的在前面，先加的移下，这种情况叫碰撞。这种碰撞的情况应尽量避免，否存一个索引中链表的数据大量时，该索引当再次插入一个对象时equals比较全部影响效率。
+因此jdk1.8改善这种碰撞情况的出现，jdk1.8中的HashMap存储结构是由数组、链表、红黑树这三种数据结构形成，红黑树查询删除快新增慢。
